@@ -249,10 +249,10 @@ void reg_stu(){
 
     // last char of return of ctime is \n so replaced it with \0.
     stu.date[strlen(stu.date)-1]='\0';
-    
+
     // print the details of student added.
     print_student(stu);
-    
+
     // append to the file.
     datafile1 = fopen("data.bin","a");
     encrypt(&stu);
@@ -343,8 +343,8 @@ void search_room(int room){
 
 void stu_access(){
 
-    STU temp[1000],found[1000];
-    int size=0,count_found=0;
+    STU temp[1000];
+    int size=0;
 
     // print all
     read_file1(temp,&size);
@@ -362,7 +362,7 @@ void stu_access(){
 
 
 void update(){
-    
+
     printf("Do you know the id(or form no.) of student: ");
     char response;
     fflush(stdin);
@@ -377,7 +377,7 @@ void update(){
         ucase(name);
         search_name(name);
     }
-    int id,found=0;
+    int id;
 
     chnline(2);
     printf("Enter the id number: ");
@@ -489,7 +489,7 @@ void update_id(int id){
 
 
 void del(){
-    
+
     printf("Do you know the id(or form no.) of student: ");
     char response;
     fflush(stdin);
@@ -504,7 +504,7 @@ void del(){
         ucase(name);
         search_name(name);
     }
-    int id,found=0;
+    int id;
     chline();
     printf("Enter the id number: ");
     scanf("%d",&id);
@@ -536,7 +536,7 @@ void del_id(int id){
 }
 
 void print_student(STU s){
-    
+
     chnline(2);
     printf("%-35s %30d\n","Id/Form number:",s.stu_no);
     chline();
@@ -563,7 +563,7 @@ void swap(STU *s1, STU *s2){
 }
 
 void sort(){
-    STU s[1000], temp;
+    STU s[1000];
     int size=0;
 
     read_file1(s,&size);
@@ -583,11 +583,11 @@ void print_list(STU s[], int size){
     chrow();
     table_row();
     //      id   name   mob   scho  guarname num
-    printf("|%5s |%20s |%15s |%20s |%20s |%15s |%25s |%9s |","ID","Name","Mobile No.","School","Guard.. Name","Guard.. No.","Date of enroll","Room No.");
+    printf("|%5s |%-20s |%-15s |%-20s |%-20s |%-15s |%-25s |%-9s |","ID","Name","Mobile No.","School","Guard.. Name","Guard.. No.","Date of enroll","Room No.");
     chrow();
     for (int i=0; i<size; i++){
         table_row();
-        printf("|%5d |%20s |%15s |%20s |%20s |%15s |%25s |%9d |",s[i].stu_no,s[i].name,s[i].number,s[i].inst,s[i].guardian_name,s[i].guardian_no,s[i].date,s[i].room_no);
+        printf("|%5d |%-20s |%15s |%-20s |%-20s |%15s |%25s |%9d |",s[i].stu_no,s[i].name,s[i].number,s[i].inst,s[i].guardian_name,s[i].guardian_no,s[i].date,s[i].room_no);
         chrow();
     }
     table_row();
@@ -612,7 +612,7 @@ void read_file1(STU *s,int *size){
 
 int read_id(){
     int id = 1;
-    datafile2 = fopen("count.bin","r");
+    datafile2 = fopen("count.bin","r+");
 
     if (datafile2==NULL){
         id = 1;
@@ -623,9 +623,6 @@ int read_id(){
     else {
         fread(&id,sizeof(int),1,datafile2);
         id++;
-        fclose(datafile2);
-
-        datafile2=fopen("count.bin","w");
         fwrite(&id,sizeof(int),1,datafile2);
         fclose(datafile2);
     }
